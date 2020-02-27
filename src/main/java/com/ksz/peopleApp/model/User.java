@@ -7,10 +7,15 @@ import java.util.UUID;
 public class User {
 
     private final UUID uid;
+
     private final String firstName;
+
     private final String lastName;
+
     private final Gender gender;
+
     private final Integer age;
+
     private final String email;
 
     public User(@JsonProperty("uid") UUID uid, @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,

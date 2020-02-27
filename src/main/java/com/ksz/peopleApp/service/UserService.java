@@ -6,6 +6,7 @@ import com.ksz.peopleApp.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -41,8 +42,8 @@ public class UserService {
 
     public int updateUser(User user) {
         Optional<User> optionalUser = userDao.selectUserByUserId(user.getUid());
-
         if (optionalUser.isPresent()){
+            validateUser(user);
             return userDao.updateUser(user);
         }
 
@@ -63,6 +64,15 @@ public class UserService {
     public int addUser(User user)
     {
         UUID userId = UUID.randomUUID();
+        validateUser(user);
         return userDao.insertUser(userId, User.newUser(userId, user));
+    }
+
+    private void validateUser(User user) {
+        Objects.requireNonNull(user.getFirstName(), "first name required");
+        Objects.requireNonNull(user.getLastName(), "last name required");
+        Objects.requireNonNull(user.getAge(), "age required");
+        Objects.requireNonNull(user.getEmail(), "email required");
+        Objects.requireNonNull(user.getGender(), "gender required");
     }
 }
